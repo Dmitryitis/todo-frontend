@@ -1,8 +1,18 @@
 version: '3'
 
 services:
+  nginx:
+    image: qwer342/todo_nginx:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app
+    networks:
+      - web
+
   app:
-    image: ${CI_REGISTRY_IMAGE}/app:latest
+    image: qwer342/todo_app:latest
     build:
       context: .
       dockerfile: app/Dockerfile
