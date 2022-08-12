@@ -1,0 +1,4 @@
+node_modules/
+project_layout/
+build/
+src/index.js
