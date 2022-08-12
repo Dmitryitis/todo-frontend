@@ -52,6 +52,10 @@
       "react-app/jest"
     ]
   },
+  "engines": {
+    "node": "16.15.0",
+    "npm": "8.5.5"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -62,6 +66,15 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npm run pre-commit"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --cache --fix",
+      "prettier --write"
     ]
   }
 }
