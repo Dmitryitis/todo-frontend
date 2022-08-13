@@ -1,0 +1,88 @@
+@import "../../foundation/all";
+
+.Button {
+  background: #222222;
+  border-radius: 10px;
+  border: none;
+  padding: 15px 20px;
+  cursor: pointer;
+  color: #F4F4F4;
+  font-size: 1.28rem;
+  font-weight: 600;
+  box-shadow: 0px 0px 13px 0px #cdcdcd33;
+
+
+  transition: opacity 0.2s linear;
+  &:hover,
+  &:disabled {
+    opacity: 0.5;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  @include tablet {
+    & {
+      padding: 10px 15px;
+    }
+  }
+
+  &Flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &Settings {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @include mobile {
+      & {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+    }
+  }
+
+  &AddTask {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    @include mobile {
+      & {
+        background: $white;
+        padding: 0;
+
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        justify-content: center;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px, rgba(0, 0, 0, 0.14) 0px 6px 10px 0px, rgba(0, 0, 0, 0.14) 0px 1px 18px 0px;
+      }
+    }
+  }
+
+  &FormTask {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 20px 18px;
+    height: 54px;
+    background: #fff;
+    border: 1px solid rgba(30,30,30,.08);
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  &Margin {
+    margin-left: 15px;
+  }
+}

@@ -1,24 +1,20 @@
 import React from "react"
-import logo from "static/logo.svg"
-import "styles/App.css"
+import { QueryClient, QueryClientProvider } from "react-query"
+import { BrowserRouter } from "react-router-dom"
+import { ReactQueryDevtools } from "react-query/devtools"
+import AppRouter from "./AppRouter"
+
+const queryClient = new QueryClient()
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+        <ReactQueryDevtools initialIsOpen />
+      </QueryClientProvider>
     </div>
   )
 }

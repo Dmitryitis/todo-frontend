@@ -53,6 +53,7 @@
     "react/no-unescaped-entities": "off",
     "react/function-component-definition": "off",
     "react/require-default-props": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "import/no-extraneous-dependencies": "off"
   }
 }

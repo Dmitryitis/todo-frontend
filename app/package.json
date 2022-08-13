@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.0",
+    "@emotion/styled": "^11.10.0",
+    "@mui/material": "^5.10.0",
+    "@mui/x-date-pickers": "^5.0.0-beta.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,10 +14,18 @@
     "@types/node": "^16.11.48",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "axios": "^0.25.0",
+    "clsx": "^1.1.1",
+    "date-fns": "^2.29.1",
+    "framer-motion": "^7.1.0",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
+    "react-hook-form": "^7.34.1",
+    "react-query": "^3.39.2",
     "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.1",
+    "sass": "^1.53.0",
     "typescript": "^4.7.4",
     "web-vitals": "^2.1.4"
   },
@@ -44,7 +56,8 @@
     "lint": "eslint --ext .ts,.tsx --ignore-path .gitignore .",
     "lint:fix": "eslint --fix --ext .ts,.tsx --ignore-path .gitignore .",
     "prettier": "prettier --write \"./src/**/*.{ts,tsx,js}\"",
-    "prettier:check": "prettier --check \"./src/**/*.{ts,tsx}\""
+    "prettier:check": "prettier --check \"./src/**/*.{ts,tsx}\"",
+    "generate-api": "openapi --input http://141.8.195.213/api/swagger.json --output ./src/api/__generated__ -c axios"
   },
   "eslintConfig": {
     "extends": [

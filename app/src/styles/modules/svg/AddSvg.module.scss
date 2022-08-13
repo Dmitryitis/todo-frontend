@@ -1,0 +1,16 @@
+@import "../../foundation/all";
+
+.AddSvg {
+  width: 21px;
+  height: 21px;
+  fill: #F4F4F4;
+  @include tablet {
+    width: 20px;
+    height: 20px;
+  }
+  @include mobile {
+    & {
+      fill: $black;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@import "../foundation/all";
+
+.Date {
+  &Desktop {
+    width: 100%;
+    display: block;
+
+    @include sm-tablet {
+      display: none;
+    }
+  }
+
+  &Mobile {
+    width: 100%;
+    display: none;
+
+    @include sm-tablet {
+      display: block;
+    }
+  }
+}

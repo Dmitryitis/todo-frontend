@@ -1,0 +1,85 @@
+/*=============================================
+=            Breakpoints                      =
+=============================================*/
+
+$breakpoints: (
+        v-sm: 468px,
+        sm: 568px,
+        md: 768px,
+        lg: 1024px,
+        xl: 1280px,
+);
+
+/*=====  End of Breakpoints  ======*/
+
+
+$fw-light: 300;
+$fw-normal: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
+$fw-extrabold: 800;
+$fw-black: 900;
+
+/* Font sizes */
+$fs-xs: 12px; // 12px
+$fs-sm: 14px; // 14px
+$fs-base: 16px; // 16px
+$fs-lg: 18px; // 18px
+$fs-xl: 24px; // 24px
+$fs-2xl: 28px; // 24px
+
+/* Colors*/
+$white: #f4f4f4;
+
+$black: #222222;
+$black-500: #161616;
+$black-400: #3B3B3B;
+$black-300: #444444;
+$black-200: #7a7a7a;
+
+$blue-light: #21D4FD;
+$blue: #219FFF;
+$blue-900: #54595F;
+
+$pink: #B721FF;
+$pink-200: #E49DEF;
+$pink-300: #E83E8C;
+
+$grey-200: #eee;
+$grey-300: #B2B2B2;
+$grey-400: #4F4949;
+$grey-500: #939393;
+$grey-600: #6B6B6B;
+
+$red: #9A1A1A;
+$red-200: #daaeae;
+$red-300: #ff8585;
+$red-400: #e53a56;
+
+$green: #c4ffc4;
+$green-500: #33DE3A;
+
+$yellow: #ffe074;
+
+$spacing: (
+        none: 0rem,
+        xxxs: 0.25rem,
+  // 4px
+        xxs: 0.5rem,
+  // 8px
+        xs: 0.75rem,
+  // 12px
+        sm: 1rem,
+  // 16px
+        md: 1.5rem,
+  // 24px
+        lg: 2rem,
+  // 32px
+        xl: 3rem,
+  // 48px
+        xxl: 4.5rem,
+  // 72px
+        xxxl: 6rem,
+  // 96px
+) !default;

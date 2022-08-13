@@ -1,0 +1,52 @@
+.Dropdown {
+  right: 0px;
+  top: 120%;
+  position: absolute;
+  min-width: 210px;
+  display: none;
+  z-index: 1000;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 5px -1px, rgba(0, 0, 0, 0.14) 0px 6px 10px 0px, rgba(0, 0, 0, 0.14) 0px 1px 18px 0px;
+
+  &Open {
+    display: block;
+  }
+
+  &Header {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &Text {
+    font-size: 16px;
+    font-weight: 600;
+    color: #525358;
+  }
+
+  &Nav {
+    padding-top: 16px;
+    padding-left: 17px;
+  }
+
+  &Margin {
+    margin-left: 9px;
+    margin-top: -1px;
+  }
+
+  &Item {
+    display: flex;
+    align-items: center;
+    border: none;
+    background: none;
+    outline: 0;
+    cursor: pointer;
+    padding-bottom: 14px;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}

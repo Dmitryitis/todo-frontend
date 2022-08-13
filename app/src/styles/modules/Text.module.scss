@@ -1,0 +1,21 @@
+@import "../foundation/all";
+
+.Text {
+  font-size: 14px;
+
+  &NoneTextMobile {
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &Title {
+    font-size: 32px !important;
+    color: #1e1e1e !important;
+    font-weight: 600 !important;
+  }
+}
+
+.R {
+  position: relative;
+}
