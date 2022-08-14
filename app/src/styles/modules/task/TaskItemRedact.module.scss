@@ -1,0 +1,70 @@
+.TaskItem {
+  position: relative;
+  display: flex;
+  padding: 10px 26px 10px 20px;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  border: 1px solid rgba(30,30,30,.08);
+  border-radius: 12px;
+  background-color: transparent;
+  cursor: crosshair;
+
+
+  &Info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &Title {
+    margin-bottom: 8px;
+    color: #1e1e1e;
+    font-weight: 500;
+    font-size: 16px;
+    font-family: "Roboto", sans-serif;
+  }
+
+
+  &Text {
+    font-weight: 500;
+    font-size: 16px;
+    color: rgba(30,30,30,.4);
+    font-family: "Roboto", sans-serif;
+  }
+
+  &Actions {
+    display: flex;
+    grid-gap: 12px;
+    gap: 12px;
+  }
+
+  &Button {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 10001;
+
+    &Content {
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+      line-height: 22px;
+      font-weight: 700;
+      transition: .3s ease;
+    }
+  }
+}
+
+.Wrapper {
+  margin-bottom: 20px;
+  display: grid;
+  grid-row-gap: 12px;
+  overflow: hidden;
+}

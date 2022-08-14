@@ -14,8 +14,12 @@
     color: #1e1e1e !important;
     font-weight: 600 !important;
   }
-}
 
-.R {
-  position: relative;
+  &Button {
+    font-weight: 600;
+    font-size: 16px;
+    color: #1e1e1e !important;
+    margin-left: 5px;
+    margin-bottom: -2px;
+  }
 }

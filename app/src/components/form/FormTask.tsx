@@ -1,74 +1,115 @@
-import { FC, useEffect, useState } from "react"
+import { FC, useState } from "react"
 import {
-  Button,
+  Button as MuiButton,
   DialogActions,
   DialogContent,
   DialogContentText,
-  TextField,
 } from "@mui/material"
-import {
-  DesktopDatePicker,
-  LocalizationProvider,
-  MobileDatePicker,
-} from "@mui/x-date-pickers"
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
-import clsx from "clsx"
-import styles from "styles/modules/Date.module.scss"
 import stylesMargin from "styles/modules/Margin.module.scss"
+import stylesWrapper from "styles/modules/task/TaskItemRedact.module.scss"
+import clsx from "clsx"
+import FieldDate from "components/UI/form/FieldDate"
+import { TaskItem_TaskItemWrite } from "api/__generated__"
+import FormTaskItem from "components/form/FormTaskItem"
+import TaskItemRedact from "components/task/TaskItemRedact"
+import {
+  closestCenter,
+  DndContext,
+  MouseSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core"
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
+import { ChangeState } from "types"
 
 interface Props {
   onClick: () => void
 }
 
 const FormTask: FC<Props> = ({ onClick }) => {
+  const initialChange: ChangeState = {
+    index: -1,
+    change: false,
+    task: null,
+  }
+
   const [date, setDate] = useState<Date | null>(new Date())
-  const [today, setTodayDate] = useState<string>("2017-01-01")
+  const [tasks, setTasks] = useState<Array<TaskItem_TaskItemWrite> | null>(null)
+  const [change, setChange] = useState<ChangeState>(initialChange)
 
-  useEffect(() => {
-    let dateToday: Date | string = new Date()
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+        distance: 10,
+      },
+    }),
+  )
 
-    const dd = String(dateToday.getDate()).padStart(2, "0")
-    const mm = String(dateToday.getMonth() + 1).padStart(2, "0")
-    const yyyy = dateToday.getFullYear()
+  const addTask = (task: TaskItem_TaskItemWrite) => {
+    if (change.change && tasks) {
+      const newTodos = [...tasks]
+      newTodos[change.index] = task
+      setTasks(newTodos)
+      setChange(initialChange)
+    } else if (tasks === null) {
+      setTasks(() => [task])
+    } else {
+      const newTodos = [...tasks]
+      newTodos.push(task)
+      setTasks(newTodos)
+    }
+  }
 
-    dateToday = `${yyyy}-${mm}-${dd}`
+  const deleteTask = (index: number) => {
+    if (tasks) {
+      const newTodos = [...tasks]
+      newTodos.splice(index, 1)
+      setTasks(newTodos)
+    }
+  }
 
-    setTodayDate(dateToday)
-  }, [today])
+  const changeTask = (index: number) => {
+    if (tasks) {
+      const task = tasks[index]
+      const data: ChangeState = {
+        change: true,
+        index,
+        task,
+      }
+      setChange(data)
+    }
+  }
+
+  const handleDragEnd = (event: any) => {
+    const { active, over } = event
+
+    if (tasks) {
+      const newTodos = [...tasks]
+
+      const tmp = newTodos[active.id]
+      newTodos[active.id] = newTodos[over.id]
+      newTodos[over.id] = tmp
+      setTasks(newTodos)
+    }
+  }
+
   return (
     <>
       <DialogContent dividers>
         <DialogContentText className={stylesMargin.MarginBottom20}>
           Choose time
         </DialogContentText>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <span className={styles.DateDesktop}>
-            <DesktopDatePicker
-              label="Task date"
-              value={date}
-              minDate={new Date(today)}
-              onChange={(newValue) => {
-                setDate(newValue)
-              }}
-              renderInput={(params) => (
-                <TextField className={styles.DateDesktop} {...params} />
-              )}
-            />
-          </span>
-          <span className={styles.DateMobile}>
-            <MobileDatePicker
-              label="Task date"
-              value={date}
-              onChange={(newValue) => {
-                setDate(newValue)
-              }}
-              minDate={new Date(today)}
-              renderInput={(params) => (
-                <TextField className={styles.DateMobile} {...params} />
-              )}
-            />
-          </span>
-        </LocalizationProvider>
+        <FieldDate date={date} setDate={setDate} />
         <DialogContentText
           className={clsx(
             stylesMargin.MarginBottom20,
@@ -77,10 +118,35 @@ const FormTask: FC<Props> = ({ onClick }) => {
         >
           Create todo item
         </DialogContentText>
+        <div className={stylesWrapper.Wrapper}>
+          {tasks && (
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={Object.keys(tasks).map((item) => parseInt(item, 10))}
+                strategy={verticalListSortingStrategy}
+              >
+                {tasks.map((item: TaskItem_TaskItemWrite, index) => (
+                  <TaskItemRedact
+                    key={index}
+                    id={index}
+                    task={item}
+                    handleDelete={() => deleteTask(index)}
+                    handleChange={() => changeTask(index)}
+                  />
+                ))}
+              </SortableContext>
+            </DndContext>
+          )}
+        </div>
+        <FormTaskItem addTask={addTask} change={change} />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClick}>Cancel</Button>
-        <Button onClick={onClick}>Create</Button>
+        <MuiButton onClick={onClick}>Cancel</MuiButton>
+        <MuiButton onClick={onClick}>Create</MuiButton>
       </DialogActions>
     </>
   )

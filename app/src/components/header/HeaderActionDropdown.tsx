@@ -16,7 +16,9 @@ const HeaderActionDropdown: FC = () => {
     setOpen((prevValue: boolean) => !prevValue)
   }, [open])
 
-  useOnClickOutside(dropdownRef, () => setOpen(false))
+  const close = useCallback(() => setOpen(false), [])
+
+  useOnClickOutside(dropdownRef, close)
 
   return (
     <div ref={dropdownRef} className={stylesPosition.PositionRelative}>

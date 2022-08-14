@@ -15,7 +15,13 @@ const ModalTask: FC<Props> = ({ onClick, open, change = false }) => {
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"))
 
   return (
-    <Dialog open={open} maxWidth="lg" fullScreen={fullScreen} onClose={onClick}>
+    <Dialog
+      open={open}
+      fullWidth
+      maxWidth="sm"
+      fullScreen={fullScreen}
+      onClose={onClick}
+    >
       <DialogTitle className={stylesText.TextTitle}>
         {change ? "Change task" : "Create task"}
       </DialogTitle>
