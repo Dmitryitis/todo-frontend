@@ -1,0 +1,55 @@
+.Switch {
+  &Button {
+    width: 50px;
+    height: 30px;
+    background-color: #366EFF;
+    border-radius: 20px;
+    padding: 2px 1px;
+    cursor: pointer;
+    transition: 0.3s ease;
+
+    &Toddler {
+      width: 25px;
+      height: 25px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.3s ease;
+      transform: translateX(2px);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &Active {
+      background-color: #10C200;
+
+      .SwitchButtonToddler {
+        transform: translateX(21px);
+      }
+    }
+
+    &Large {
+      width: 70px;
+      height: 40px;
+      border-radius: 20px;
+      padding: 3px;
+
+      .SwitchButtonToddler {
+        width: 34px;
+        height: 34px;
+      }
+
+      &.SwitchButtonActive {
+        .SwitchButtonToddler {
+          transform: translateX(30px);
+        }
+      }
+    }
+
+    &Disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

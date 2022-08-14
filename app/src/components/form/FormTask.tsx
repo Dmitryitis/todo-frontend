@@ -12,16 +12,6 @@ import FieldDate from "components/UI/form/FieldDate"
 import { TaskItem_TaskItemWrite } from "api/__generated__"
 import FormTaskItem from "components/form/FormTaskItem"
 import TaskItemRedact from "components/task/TaskItemRedact"
-import {
-  closestCenter,
-  DndContext,
-  MouseSensor,
-  PointerSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core"
-import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import { ChangeState } from "types"
 
 interface Props {
@@ -38,22 +28,6 @@ const FormTask: FC<Props> = ({ onClick }) => {
   const [date, setDate] = useState<Date | null>(new Date())
   const [tasks, setTasks] = useState<Array<TaskItem_TaskItemWrite> | null>(null)
   const [change, setChange] = useState<ChangeState>(initialChange)
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(MouseSensor, {
-      activationConstraint: {
-        distance: 10,
-      },
-    }),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 250,
-        tolerance: 5,
-        distance: 10,
-      },
-    }),
-  )
 
   const addTask = (task: TaskItem_TaskItemWrite) => {
     if (change.change && tasks) {
@@ -90,19 +64,6 @@ const FormTask: FC<Props> = ({ onClick }) => {
     }
   }
 
-  const handleDragEnd = (event: any) => {
-    const { active, over } = event
-
-    if (tasks) {
-      const newTodos = [...tasks]
-
-      const tmp = newTodos[active.id]
-      newTodos[active.id] = newTodos[over.id]
-      newTodos[over.id] = tmp
-      setTasks(newTodos)
-    }
-  }
-
   return (
     <>
       <DialogContent dividers>
@@ -119,28 +80,15 @@ const FormTask: FC<Props> = ({ onClick }) => {
           Create todo item
         </DialogContentText>
         <div className={stylesWrapper.Wrapper}>
-          {tasks && (
-            <DndContext
-              sensors={sensors}
-              collisionDetection={closestCenter}
-              onDragEnd={handleDragEnd}
-            >
-              <SortableContext
-                items={Object.keys(tasks).map((item) => parseInt(item, 10))}
-                strategy={verticalListSortingStrategy}
-              >
-                {tasks.map((item: TaskItem_TaskItemWrite, index) => (
-                  <TaskItemRedact
-                    key={index}
-                    id={index}
-                    task={item}
-                    handleDelete={() => deleteTask(index)}
-                    handleChange={() => changeTask(index)}
-                  />
-                ))}
-              </SortableContext>
-            </DndContext>
-          )}
+          {tasks &&
+            tasks.map((item: TaskItem_TaskItemWrite, index) => (
+              <TaskItemRedact
+                key={index}
+                task={item}
+                handleDelete={() => deleteTask(index)}
+                handleChange={() => changeTask(index)}
+              />
+            ))}
         </div>
         <FormTaskItem addTask={addTask} change={change} />
       </DialogContent>

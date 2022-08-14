@@ -1,0 +1,118 @@
+@import "../../foundation/all";
+
+.Tasks {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.TaskItem {
+  width: 100%;
+  background: #282828;
+  box-shadow: 16px 16px 20px rgba(0, 0, 0, 0.15), -8px -8px 20px rgba(255, 255, 255, 0.05);
+  border-radius: 25px;
+  padding: 20px 29px 20px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  cursor: pointer;
+
+  outline: 0;
+
+  &:last-child {
+    margin-bottom: 10px;
+  }
+
+  &Open {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+
+    &Block {
+      width: 100%;
+      background: #282828;
+      box-shadow: 16px 16px 20px rgba(0, 0, 0, 0.15), -8px -8px 20px rgba(255, 255, 255, 0.05);
+      border-radius: 25px;
+      padding: 20px 29px 20px 15px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 32px;
+      cursor: pointer;
+
+      outline: 0;
+    }
+  }
+
+  &Line {
+    width: 5px;
+    height: 40px;
+    background: #A9A9A9;
+    margin-right: 13px;
+    border-radius: 3px;
+  }
+
+  &Title {
+    color: $white;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  &Text {
+    color: #FFFFFF99;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 5px;
+    text-align: left;
+  }
+
+  &Header {
+    color: $white;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: "Arial", sans-serif;
+  }
+
+  &Flex {
+    display: flex;
+    align-items: center;
+    background: none;
+    box-shadow: none;
+    outline: 0;
+
+    &Info {
+      flex-direction: column;
+    }
+
+    &Block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}
+
+.FlexBetween {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.FlexBlockItem {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-top: 0px;
+    margin-bottom: 0;
+  }
+}
