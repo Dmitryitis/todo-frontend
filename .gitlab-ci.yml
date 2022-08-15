@@ -26,7 +26,8 @@ before_script:
 build:
   stage: build
   script:
-    - docker-compose -f docker-compose.yml -p $PROJECT_NAME build
+    - docker build -t ${IMAGE}/app:latest -f app/Dockerfile .
+    - docker build -t ${IMAGE}/nginx:latest -f deploy/nginx/Dockerfile .
   variables:
     PROJECT_NAME: todo
   tags:
