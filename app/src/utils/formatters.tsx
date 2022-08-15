@@ -31,6 +31,16 @@ export const dateFormatter = (date: string | undefined) => {
   return ""
 }
 
+export const formatterDateCreateTask = (date: Date) => {
+  const dataParse = {
+    dd: String(date.getDate()).padStart(2, "0"),
+    mm: String(date.getMonth() + 1).padStart(2, "0"),
+    yyyy: date.getFullYear(),
+  }
+
+  return `${dataParse.yyyy}-${dataParse.mm}-${dataParse.dd}`
+}
+
 export const shortTitleFormatter = (title: string | undefined) => {
   const maxSymbols = 30
   if (title !== undefined) {

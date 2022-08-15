@@ -9,10 +9,16 @@ import stylesMargin from "styles/modules/Margin.module.scss"
 import stylesWrapper from "styles/modules/task/TaskItemRedact.module.scss"
 import clsx from "clsx"
 import FieldDate from "components/UI/form/FieldDate"
-import { TaskItem_TaskItemWrite } from "api/__generated__"
+import {
+  Task_TaskWrite,
+  TaskItem_TaskItemWrite,
+  TaskService,
+} from "api/__generated__"
 import FormTaskItem from "components/form/FormTaskItem"
 import TaskItemRedact from "components/task/TaskItemRedact"
 import { ChangeState } from "types"
+import { useMutation, useQueryClient } from "react-query"
+import { formatterDateCreateTask } from "../../utils/formatters"
 
 interface Props {
   onClick: () => void
@@ -25,9 +31,24 @@ const FormTask: FC<Props> = ({ onClick }) => {
     task: null,
   }
 
-  const [date, setDate] = useState<Date | null>(new Date())
-  const [tasks, setTasks] = useState<Array<TaskItem_TaskItemWrite> | null>(null)
+  const [date, setDate] = useState<Date>(new Date())
+  const [tasks, setTasks] = useState<Array<TaskItem_TaskItemWrite> | []>([])
   const [change, setChange] = useState<ChangeState>(initialChange)
+
+  const queryClient = useQueryClient()
+
+  const { isLoading, mutateAsync } = useMutation(
+    "create task",
+    (data: Task_TaskWrite) => TaskService.taskCreate(data),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("tasks")
+        setTasks([])
+        setDate(new Date())
+        onClick()
+      },
+    },
+  )
 
   const addTask = (task: TaskItem_TaskItemWrite) => {
     if (change.change && tasks) {
@@ -64,6 +85,19 @@ const FormTask: FC<Props> = ({ onClick }) => {
     }
   }
 
+  const createTask = async () => {
+    const data: Task_TaskWrite = {
+      task_date: formatterDateCreateTask(date),
+      task_items: tasks?.map((item, index) => {
+        return { ...item, index: index + 1 }
+      }),
+    }
+
+    await mutateAsync(data)
+
+    console.log(data)
+  }
+
   return (
     <>
       <DialogContent dividers>
@@ -93,8 +127,12 @@ const FormTask: FC<Props> = ({ onClick }) => {
         <FormTaskItem addTask={addTask} change={change} />
       </DialogContent>
       <DialogActions>
-        <MuiButton onClick={onClick}>Cancel</MuiButton>
-        <MuiButton onClick={onClick}>Create</MuiButton>
+        <MuiButton disabled={isLoading} onClick={onClick}>
+          Cancel
+        </MuiButton>
+        <MuiButton disabled={isLoading} onClick={createTask}>
+          Create
+        </MuiButton>
       </DialogActions>
     </>
   )

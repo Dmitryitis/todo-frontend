@@ -1,25 +1,31 @@
-import { FC, useCallback, useState } from "react"
+import { FC, useContext } from "react"
 import clsx from "clsx"
 import styles from "styles/modules/dropdown/Dropdown.module.scss"
 import { Switch } from "@mui/material"
+import { ContextApp } from "store/reducer"
 
 interface Props {
   open: boolean
 }
 
 const Dropdown: FC<Props> = ({ open }) => {
-  const [checked, setChecked] = useState(false)
+  const { state, dispatch } = useContext(ContextApp)
 
-  const handleChange = useCallback(() => {
-    setChecked((prevState) => !prevState)
-  }, [checked])
+  const handleChange = () => {
+    dispatch({
+      type: "update_news",
+      payload: {
+        isActiveNews: !state.isActiveNews,
+      },
+    })
+  }
 
   return (
     <div className={clsx(styles.Dropdown, { [styles.DropdownOpen]: open })}>
       <div className={styles.DropdownHeader}>
         <span className={styles.DropdownText}>Hide the news feed?</span>
         <Switch
-          checked={checked}
+          checked={state.isActiveNews}
           onChange={handleChange}
           inputProps={{ "aria-label": "controlled" }}
         />

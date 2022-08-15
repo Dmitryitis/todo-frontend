@@ -21,6 +21,16 @@ jobs:
     needs: set-up
     runs-on: self-hosted
     steps:
+      - name: Executing remote ssh commands to set env
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USER }}
+            key: ${{ secrets.SSH_KEY }}
+            script: |
+                export NEWS_TOKEN=${{ secrets.NEWS_TOKEN }}
+                export API_URL=${{ secrets.API_URL }}
+
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -28,22 +38,32 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       - uses: actions/checkout@v2
       - name: Build Docker Image
-        run: docker image build . --file app/Dockerfile --tag qwer342/todo_app:latest
+        run: docker image build . --file app/Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo_app:latest
 
       - name: Push Docker Image
-        run: docker image push qwer342/todo_app:latest
+        run: docker image push ${{ secrets.DOCKER_HUB_USERNAME }}/todo_app:latest
 
       - uses: actions/checkout@v2
       - name: Build Docker Image
-        run: docker image build . --file deploy/nginx/Dockerfile --tag qwer342/todo_nginx:latest
+        run: docker image build . --file deploy/nginx/Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo_nginx:latest
 
       - name: Push Docker Image
-        run: docker image push qwer342/todo_nginx:latest
+        run: docker image push ${{ secrets.DOCKER_HUB_USERNAME }}/todo_nginx:latest
 
   deployment:
     runs-on: self-hosted
     needs: build
     steps:
+      - name: Executing remote ssh commands to set env
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.HOST }}
+            username: ${{ secrets.USER }}
+            key: ${{ secrets.SSH_KEY }}
+            script: |
+              export NEWS_TOKEN=${{ secrets.NEWS_TOKEN }}
+              export API_URL=${{ secrets.API_URL }}
+
       - name: Make pull
         uses: actions/checkout@v2
 

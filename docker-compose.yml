@@ -19,6 +19,9 @@ services:
     restart: always
     ports:
       - "3000:3000"
+    environment:
+      REACT_APP_NEWS_TOKEN: $NEWS_TOKEN
+      REACT_APP_API_URL: $API_URL
     networks:
       - web
 

@@ -10,7 +10,7 @@ import { TextField } from "@mui/material"
 
 interface Props {
   date: Date | null
-  setDate: (newValue: Date | null) => void
+  setDate: (newValue: Date) => void
 }
 
 const FieldDate: FC<Props> = ({ date, setDate }) => {
@@ -36,7 +36,7 @@ const FieldDate: FC<Props> = ({ date, setDate }) => {
           value={date}
           minDate={new Date(today)}
           onChange={(newValue) => {
-            setDate(newValue)
+            setDate(newValue || new Date())
           }}
           renderInput={(params) => (
             <TextField className={styles.DateDesktop} {...params} />
@@ -48,7 +48,7 @@ const FieldDate: FC<Props> = ({ date, setDate }) => {
           label="Task date"
           value={date}
           onChange={(newValue) => {
-            setDate(newValue)
+            setDate(newValue || new Date())
           }}
           minDate={new Date(today)}
           renderInput={(params) => (
