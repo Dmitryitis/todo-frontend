@@ -72,11 +72,19 @@
   }
 
   &Header {
+    width: 100%;
     color: $white;
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 20px;
     font-family: "Arial", sans-serif;
+    display: flex;
+    align-items: center;
+
+    background: none;
+    box-shadow: none;
+    outline: 0;
+    cursor: pointer;
   }
 
   &Flex {

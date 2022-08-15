@@ -22,8 +22,6 @@ export default function useIntersectionObserver({
       return
     }
 
-    console.log(32)
-
     const observer = new IntersectionObserver(
       (entries) =>
         entries.forEach((entry) => entry.isIntersecting && onIntersect()),

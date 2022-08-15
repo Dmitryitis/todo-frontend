@@ -1,43 +1,28 @@
 import { FC, useState } from "react"
-import {
-  TaskItem_TaskItemUpdate,
-  TaskItemService,
-  Tasks_TasksRead,
-} from "api/__generated__"
+import { Tasks_TasksRead } from "api/__generated__"
 import styles from "styles/modules/task/TaskItem.module.scss"
 import Switch from "components/UI/buttons/Switch"
 import { dateFormatter } from "utils/formatters"
-import { useMutation, useQueryClient } from "react-query"
 import TaskItemLine from "./TaskItemLine"
 import { TaskItemText, TaskItemTitle } from "./TaskItemInfo"
+import { useUpdateTask } from "../../hooks/tasks/useTask"
+import { UpdateTaskRequest } from "../../types"
+import ArrowSvg from "../UI/svg/ArrowSvg"
 
 interface Props {
   task: Tasks_TasksRead
+  handleClose: () => void
 }
 
-interface UpdateTaskRequest {
-  id: string
-  data: TaskItem_TaskItemUpdate
-}
-
-const TaskItemOpen: FC<Props> = ({ task }) => {
+const TaskItemOpen: FC<Props> = ({ task, handleClose }) => {
   const [openId, setOpenId] = useState<number>(0)
-  const queryClient = useQueryClient()
 
-  const { mutate } = useMutation(
-    "update task item",
-    (data: UpdateTaskRequest) =>
-      TaskItemService.taskItemUpdate(data.id, data.data),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("tasks")
-      },
-    },
-  )
+  const { mutate } = useUpdateTask()
 
   const handleClick = (id: number | undefined, is_done: boolean) => {
     const dataRequest: UpdateTaskRequest = {
       id: `${id}`,
+      task_id: task.id || 0,
       data: {
         is_done,
       },
@@ -47,9 +32,14 @@ const TaskItemOpen: FC<Props> = ({ task }) => {
 
   return (
     <div className={styles.TaskItemOpen}>
-      <div className={styles.TaskItemHeader}>
-        {dateFormatter(task.task_date)} Tasks:
-      </div>
+      <button
+        type="button"
+        className={styles.TaskItemHeader}
+        onClick={handleClose}
+      >
+        <ArrowSvg rotate />
+        <span>{dateFormatter(task.task_date)} Tasks:</span>
+      </button>
       <div className={styles.TaskItemOpenBlock}>
         {task.task_items &&
           task.task_items.map((item) => (

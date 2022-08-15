@@ -7,11 +7,12 @@ interface Props {
   task: Tasks_TasksRead
   id?: number
   handleClick: () => void
+  handleClose: () => void
 }
 
-const TaskItem: FC<Props> = ({ task, id, handleClick }) => {
+const TaskItem: FC<Props> = ({ task, id, handleClick, handleClose }) => {
   return task.id === id ? (
-    <TaskItemOpen task={task} />
+    <TaskItemOpen task={task} handleClose={handleClose} />
   ) : (
     <TaskItemClose task_date={task.task_date} handleClick={handleClick} />
   )

@@ -1,4 +1,4 @@
-import { FC, Fragment, useCallback, useRef, useState } from "react"
+import { FC, Fragment, useCallback, useEffect, useRef, useState } from "react"
 import TaskItem from "components/task/TaskItem"
 import { Grid } from "@mui/material"
 import TaskSkeleton from "components/task/TaskSkeleton"
@@ -8,14 +8,22 @@ import useIntersectionObserver from "../hooks/useIntersectionObserver"
 import MarqueeContainer from "../container/MarqueeContainer"
 
 const Home: FC = () => {
-  const { data, fetchNextPage, hasNextPage, isLoading, isSuccess } = useTasks()
+  const [offset, setOffset] = useState<number>(0)
+  const { data, fetchNextPage, hasNextPage, isLoading, isSuccess } =
+    useTasks(offset)
   const loadMoreRef = useRef(null)
   const seed = useUIDSeed()
 
+  useEffect(() => {
+    if (hasNextPage) {
+      setOffset(offset + 10)
+    }
+  }, [loadMoreRef.current, hasNextPage])
+
   useIntersectionObserver({
     root: undefined,
-    rootMargin: "0px",
-    threshold: 0.1,
+    rootMargin: "20px",
+    threshold: 0.5,
     target: loadMoreRef,
     onIntersect: fetchNextPage,
     enabled: hasNextPage,
@@ -30,6 +38,10 @@ const Home: FC = () => {
     [taskId],
   )
 
+  const taskClose = useCallback(() => {
+    setTaskId(0)
+  }, [])
+
   return (
     <div className="marginTop20">
       <Grid container spacing={3}>
@@ -42,14 +54,15 @@ const Home: FC = () => {
                     id={taskId}
                     task={task}
                     handleClick={() => handleClick(task.id || 0)}
+                    handleClose={taskClose}
                   />
                 </Grid>
               ))}
             </Fragment>
           ))}
         {isLoading ? <TaskSkeleton /> : ""}
+        <div ref={loadMoreRef} />
       </Grid>
-      <div ref={loadMoreRef} />
       <MarqueeContainer />
     </div>
   )

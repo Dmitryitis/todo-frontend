@@ -9,16 +9,13 @@ import stylesMargin from "styles/modules/Margin.module.scss"
 import stylesWrapper from "styles/modules/task/TaskItemRedact.module.scss"
 import clsx from "clsx"
 import FieldDate from "components/UI/form/FieldDate"
-import {
-  Task_TaskWrite,
-  TaskItem_TaskItemWrite,
-  TaskService,
-} from "api/__generated__"
+import { Task_TaskWrite, TaskItem_TaskItemWrite } from "api/__generated__"
 import FormTaskItem from "components/form/FormTaskItem"
 import TaskItemRedact from "components/task/TaskItemRedact"
 import { ChangeState } from "types"
-import { useMutation, useQueryClient } from "react-query"
+import { useQueryClient } from "react-query"
 import { formatterDateCreateTask } from "../../utils/formatters"
+import { useCreateTask } from "../../hooks/tasks/useTask"
 
 interface Props {
   onClick: () => void
@@ -37,18 +34,14 @@ const FormTask: FC<Props> = ({ onClick }) => {
 
   const queryClient = useQueryClient()
 
-  const { isLoading, mutateAsync } = useMutation(
-    "create task",
-    (data: Task_TaskWrite) => TaskService.taskCreate(data),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries("tasks")
-        setTasks([])
-        setDate(new Date())
-        onClick()
-      },
-    },
-  )
+  const { isLoading, mutateAsync } = useCreateTask(function onSuccess() {
+    queryClient.invalidateQueries(["tasks"], {
+      refetchPage: (page, index) => index === 0,
+    })
+    setTasks([])
+    setDate(new Date())
+    onClick()
+  })
 
   const addTask = (task: TaskItem_TaskItemWrite) => {
     if (change.change && tasks) {
@@ -94,8 +87,6 @@ const FormTask: FC<Props> = ({ onClick }) => {
     }
 
     await mutateAsync(data)
-
-    console.log(data)
   }
 
   return (
