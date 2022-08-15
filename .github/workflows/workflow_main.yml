@@ -21,16 +21,6 @@ jobs:
     needs: set-up
     runs-on: self-hosted
     steps:
-      - name: Executing remote ssh commands to set env
-        uses: appleboy/ssh-action@master
-        with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USER }}
-            key: ${{ secrets.SSH_KEY }}
-            script: |
-                export NEWS_TOKEN=${{ secrets.NEWS_TOKEN }}
-                export API_URL=${{ secrets.API_URL }}
-
       - name: Login to DockerHub
         uses: docker/login-action@v1
         with:
@@ -39,6 +29,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build Docker Image
         run: docker image build . --file app/Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/todo_app:latest
+        env:
+          NEWS_TOKEN: ${{ secrets.NEWS_TOKEN }}
+          API_URL: ${{ secrets.API_URL }}
 
       - name: Push Docker Image
         run: docker image push ${{ secrets.DOCKER_HUB_USERNAME }}/todo_app:latest
@@ -54,17 +47,6 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - name: Executing remote ssh commands to set env
-        uses: appleboy/ssh-action@master
-        with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USER }}
-            password: ${{ secrets.PASSWORD }}
-            port: 22
-            script: |
-              export NEWS_TOKEN=${{ secrets.NEWS_TOKEN }}
-              export API_URL=${{ secrets.API_URL }}
-
       - name: Make pull
         uses: actions/checkout@v2
 
@@ -76,3 +58,6 @@ jobs:
 
       - name: Start container
         run: CURRENT_UID=$(id -u):$(id -g) docker-compose up --build -d
+        env:
+          NEWS_TOKEN: ${{ secrets.NEWS_TOKEN }}
+          API_URL: ${{ secrets.API_URL }}
