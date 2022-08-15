@@ -53,6 +53,9 @@ export const useUpdateTask = () => {
       onError: (_err, _newTodo, context) => {
         queryClient.setQueryData("tasks", context?.previousTaskData)
       },
+      onSettled: () => {
+        queryClient.invalidateQueries(["tasks"])
+      },
     },
   )
 }
