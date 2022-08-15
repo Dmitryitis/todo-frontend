@@ -33,7 +33,6 @@ build:
     - dev
     - todo
   only:
-    - develop
     - main
 
 push:
