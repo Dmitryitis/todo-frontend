@@ -59,7 +59,8 @@ jobs:
         with:
             host: ${{ secrets.HOST }}
             username: ${{ secrets.USER }}
-            key: ${{ secrets.SSH_KEY }}
+            password: ${{ secrets.PASSWORD }}
+            port: 22
             script: |
               export NEWS_TOKEN=${{ secrets.NEWS_TOKEN }}
               export API_URL=${{ secrets.API_URL }}
