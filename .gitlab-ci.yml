@@ -38,14 +38,11 @@ build:
 push:
   stage: push
   script:
-    - docker-compose -f docker-compose.yml -p $PROJECT_NAME push
-  variables:
-    PROJECT_NAME: todo
+    - docker push ${IMAGE}/app:latest
+    - docker push ${IMAGE}/nginx:latest
   tags:
     - dev
     - todo
-  needs:
-    - build
   only:
     - main
 
