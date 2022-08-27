@@ -7,7 +7,7 @@ import {
 import { UpdateTaskData, UpdateTaskRequest } from "../../types"
 
 // eslint-disable-next-line import/prefer-default-export
-export const useUpdateTask = () => {
+export const useUpdateTask = (indexPage: number) => {
   const queryClient = useQueryClient()
   return useMutation(
     "update task",
@@ -54,7 +54,9 @@ export const useUpdateTask = () => {
         queryClient.setQueryData("tasks", context?.previousTaskData)
       },
       onSettled: () => {
-        queryClient.invalidateQueries(["tasks"])
+        queryClient.invalidateQueries("tasks", {
+          refetchPage: (lastPage, index) => index === indexPage,
+        })
       },
     },
   )

@@ -11,13 +11,14 @@ import ArrowSvg from "../UI/svg/ArrowSvg"
 
 interface Props {
   task: Tasks_TasksRead
+  indexPage: number
   handleClose: () => void
 }
 
-const TaskItemOpen: FC<Props> = ({ task, handleClose }) => {
+const TaskItemOpen: FC<Props> = ({ task, indexPage, handleClose }) => {
   const [openId, setOpenId] = useState<number>(0)
 
-  const { mutate } = useUpdateTask()
+  const { mutate } = useUpdateTask(indexPage)
 
   const handleClick = (id: number | undefined, is_done: boolean) => {
     const dataRequest: UpdateTaskRequest = {

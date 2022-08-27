@@ -6,13 +6,20 @@ import TaskItemOpen from "./TaskItemOpen"
 interface Props {
   task: Tasks_TasksRead
   id?: number
+  indexPage: number
   handleClick: () => void
   handleClose: () => void
 }
 
-const TaskItem: FC<Props> = ({ task, id, handleClick, handleClose }) => {
+const TaskItem: FC<Props> = ({
+  task,
+  id,
+  indexPage,
+  handleClick,
+  handleClose,
+}) => {
   return task.id === id ? (
-    <TaskItemOpen task={task} handleClose={handleClose} />
+    <TaskItemOpen task={task} indexPage={indexPage} handleClose={handleClose} />
   ) : (
     <TaskItemClose task_date={task.task_date} handleClick={handleClick} />
   )

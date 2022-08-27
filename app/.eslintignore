@@ -2,3 +2,4 @@ node_modules/
 project_layout/
 build/
 src/index.js
+src/api/__generated__/

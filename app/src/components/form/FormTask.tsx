@@ -36,7 +36,7 @@ const FormTask: FC<Props> = ({ onClick }) => {
 
   const { isLoading, mutateAsync } = useCreateTask(function onSuccess() {
     queryClient.invalidateQueries(["tasks"], {
-      refetchPage: (page, index) => index === 0,
+      refetchPage: () => true,
     })
     setTasks([])
     setDate(new Date())

@@ -9,15 +9,11 @@ import { request as __request } from "../core/request"
 
 export class TasksService {
   /**
-   * @param limit Number of results to return per page.
-   * @param offset The initial index from which to return the results.
+   * @param page A page number within the paginated result set.
    * @returns any
    * @throws ApiError
    */
-  public static tasksList(
-    limit?: number,
-    offset?: number,
-  ): CancelablePromise<{
+  public static tasksList(page?: number): CancelablePromise<{
     count: number
     next?: string | null
     previous?: string | null
@@ -27,8 +23,7 @@ export class TasksService {
       method: "GET",
       url: "/tasks/",
       query: {
-        limit: limit,
-        offset: offset,
+        page: page,
       },
     })
   }
